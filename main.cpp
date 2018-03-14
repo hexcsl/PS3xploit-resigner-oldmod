@@ -1269,14 +1269,24 @@ int parse_ps3_psp_pkg(uint8_t *pkg, uint32_t toc_len, uint8_t *iv_const)
 	return 0;
 }
 
+const char *get_filename_ext(const char *filename) {
+  const char *dot = strrchr(filename, '.');
+  if(!dot || dot == filename) return "";
+  return dot + 1;
+}
+
 int main(int argc, char *argv[])
 {
+  const char *ext;
+
 	if(argc<2)
 	{
 		goto done;
 	}
+
+  ext = get_filename_ext(argv[1]);
 	
-	if((!strstr(argv[1], "EDAT")) && (!strstr(argv[1], "pkg")) && (!strstr(argv[1], "PKG")) && (!strstr(argv[1], "edat")) && (!strstr(argv[1], "ENC")) && (!strstr(argv[1], "CONFIG")))
+	if((!strstr(ext, "EDAT")) && (!strstr(ext, "pkg")) && (!strstr(ext, "PKG")) && (!strstr(ext, "edat")) && (!strstr(ext, "ENC")) && (!strstr(ext, "CONFIG")))
 	{
 		char *slash2 = strrchr (argv[1], '\\');
 		if (slash2 != NULL)
@@ -1297,11 +1307,9 @@ int main(int argc, char *argv[])
 		{
 			printf("\nverify your files!");
 		}
-		getchar();
-		getchar();
 		return 0;
 	}
-	else if((strstr(argv[1], "EDAT")) || (strstr(argv[1], "edat")))
+	else if((strstr(ext, "EDAT")) || (strstr(ext, "edat")))
 	{
 		char *slash2 = strrchr (argv[1], '\\');
 		if (slash2 != NULL)
@@ -1372,11 +1380,9 @@ int main(int argc, char *argv[])
 				fclose(fp);
 			}
 		}
-		getchar();
-        getchar();
 		return 0;
 	}
-	else if((strstr(argv[1], "pkg")) || (strstr(argv[1], "PKG")))
+	else if((strstr(ext, "pkg")) || (strstr(ext, "PKG")))
 	{
 		ecdsa_set_curve();
 		ecdsa_set_pub();
@@ -1547,11 +1553,9 @@ int main(int argc, char *argv[])
 		
 		free(buf);
 		printf("pkg signed!\n");
-		getchar();
-		getchar();
 		return 0;
 	}
-	else if(strstr(argv[1], "ENC"))
+	else if(strstr(ext, "ENC"))
 	{
 		ecdsa_set_curve();
 		ecdsa_set_pub();
@@ -1567,13 +1571,9 @@ int main(int argc, char *argv[])
 			printf("config resigned!\n");
 			fclose(fp);
 		}
-		getchar();
-		getchar();
 	}
 	
 done:
 	printf("no valid option or no valid file provided!\n");
-	getchar();
-	getchar();
 	return -1;
 }

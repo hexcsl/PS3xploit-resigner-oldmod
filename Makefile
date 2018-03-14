@@ -1,7 +1,9 @@
-CC=g++
+#CC=g++
+CC=x86_64-w64-mingw32-g++
 CFLAGS=-fpermissive
-OS_TARGET=ps3xploit_rifgen_edatresign
-LDFLAGS=-lz
+OS_TARGET=ps3xploit_rifgen_edatresign.exe
+#LDFLAGS=-lz
+LDFLAGS=-lz -static
 OBJS=aes.o aes_omac.o main.o sha1.o util.o pkg2zip_aes.c
 .SILENT:
 .SUFFIXES: .c .cpp .o
